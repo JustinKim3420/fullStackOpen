@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
+//Create buttons section
 const Buttons = (props) => {
+  //Create a button for each value received from parent
   const buttons = props.values.map((value) => {
     return (
       <Button
@@ -14,16 +16,20 @@ const Buttons = (props) => {
   return <>{buttons}</>;
 };
 
+//Create individual button
 const Button = (props) => {
   return <button onClick={props.handleClick}>{props.name}</button>;
 };
 
+//Create statistics section
 const Statistics = (props) => {
+  //Can't make more ambiguous as specfic names have specific values
   const good = props.good;
   const neutral = props.neutral;
   const bad = props.bad;
   const total = good + neutral + bad;
 
+  //If good, bad, or neutral are >0, then show stats
   if (props.good > 0 || props.bad > 0 || props.neutral > 0)
     return (
       <table>
@@ -38,6 +44,7 @@ const Statistics = (props) => {
         </tbody>
       </table>
     );
+    //If all values are 0, then ask for feedback
   return (
     <>
       <div>No feedback given</div>
@@ -45,6 +52,7 @@ const Statistics = (props) => {
   );
 };
 
+//Create individual statistic
 const Statistic = (props) => {
   //Added pre tag to let the statistics look more open
   return (
@@ -61,6 +69,7 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  //Store values in an array of objects to bass to child component
   const values = [
     { key: "good", value: good, changeValue: setGood },
     { key: "neutral", value: neutral, changeValue: setNeutral },
