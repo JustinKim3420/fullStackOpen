@@ -40,7 +40,7 @@ const Statistics = (props) => {
 
           <Statistic name="all" value={good + neutral + bad} />
           <Statistic name="average" value={(good - bad) / total} />
-          <Statistic name="positive" value={good / total + "%"} />
+          <Statistic name="positive" value={(good / total)*100 + "%"} />
         </tbody>
       </table>
     );
