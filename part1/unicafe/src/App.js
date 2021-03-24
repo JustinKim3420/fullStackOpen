@@ -22,25 +22,26 @@ const Button = (props) => {
 };
 
 // Create statistics section
-const Statistics = (props) => {
+const Statistics = ({values}) => {
   // Can't make more ambiguous as specfic names have specific values
-  const good = props.good;
-  const neutral = props.neutral;
-  const bad = props.bad;
-  const total = good + neutral + bad;
+  // We can use array destructuring here instead of having to 
+  // assign the props to each variable. 
+  const[good, neutral, bad] = values
+  const total = good.value + neutral.value + bad.value
+
 
   // If good, bad, or neutral are >0, then show stats
-  if (props.good > 0 || props.bad > 0 || props.neutral > 0)
+  if (good.value > 0 || bad.value > 0 || neutral.value > 0)
     return (
       <table>
         <tbody>
-          <Statistic name="good" value={good} />
-          <Statistic name="neutral" value={neutral} />
-          <Statistic name="bad" value={bad} />
+          <Statistic name="good" value={good.value} />
+          <Statistic name="neutral" value={neutral.value} />
+          <Statistic name="bad" value={bad.value} />
 
-          <Statistic name="all" value={good + neutral + bad} />
-          <Statistic name="average" value={(good - bad) / total} />
-          <Statistic name="positive" value={(good / total)*100 + "%"} />
+          <Statistic name="all" value={good.value + neutral.value + bad.value} />
+          <Statistic name="average" value={(good.value - bad.value) / total} />
+          <Statistic name="positive" value={(good.value / total)*100 + "%"} />
         </tbody>
       </table>
     );
@@ -100,7 +101,7 @@ const App = () => {
       <Buttons values={values} />
 
       <h1>Statistics</h1>
-      <Statistics good={good} bad={bad} neutral={neutral} /> 
+      <Statistics values={values} /> 
     </div>
   );
 };
