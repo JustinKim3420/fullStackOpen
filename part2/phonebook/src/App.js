@@ -6,7 +6,6 @@ import personService from "./services/persons";
 import Notification from "./components/Notification";
 
 const App = () => {
-
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
@@ -14,6 +13,9 @@ const App = () => {
   const [errors, setErrors] = useState([]);
   const [messages, setMessages] = useState([]);
 
+  const personsToShow = persons.filter((person) => {
+    return person.name.toLowerCase().includes(filter.toLowerCase());
+  });
 
   // Use effect to get data form the server and set to variables
   useEffect(() => {
@@ -23,26 +25,20 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const personsToShow = persons.filter((person) => {
-    return person.name.toLowerCase().includes(filter.toLowerCase());
-  });
-
   // onClick handler
   const handleClick = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
       // Tell server to delete the user
-      personService
-        .deleteName(person.id)
-        .catch(error=>{
-          setMessages([`'${person.name}' was already removed from server`])
-        });
+      personService.deleteName(person.id).catch((error) => {
+        setMessages([`'${person.name}' was already removed from server`]);
+      });
       // Update the state to show that the user has been deleted
       const newPersonsList = persons.filter((persons) => {
         return persons.name !== person.name;
       });
       setPersons(newPersonsList);
-      setMessages([`Deleted ${person.name}`])
-      setTimeout(()=>setMessages([]),5000)
+      setMessages([`Deleted ${person.name}`]);
+      setTimeout(() => setMessages([]), 5000);
     }
   };
 
@@ -98,32 +94,41 @@ const App = () => {
                 item.id !== person.id ? item : returnedPerson
               )
             );
+            setNewName("");
+            setNewNumber("");
           });
-         setMessages([`Updated ${person.name}'s number`])
+          setMessages([`Updated ${person.name}'s number`]);
         }
       } else {
-        // Add the new user to the state so another get request is not needed.
-        personService.create(newPerson).then((person) => {
-          setPersons([...persons, person]);
-        });
-        setMessages([`Added ${newPerson.name}`])
+        // Add the new user to the state
+        personService
+          .create(newPerson)
+          .then((person) => {
+            setPersons([...persons, person]);
+            setMessages([`Added ${newPerson.name}`]);
+          })
+          .catch((error) => {
+            errors.push(error.response.data.error);
+            console.log(errors)
+            setErrors(errors)
+          });
         setNewName("");
         setNewNumber("");
       }
     } else {
       setErrors(errors);
     }
-    setTimeout(()=>{
-      setErrors([])
-      setMessages([])
-    },5000)
+    setTimeout(() => {
+      setErrors([]);
+      setMessages([]);
+    }, 5000);
     errors = [];
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification messages={messages} errors={errors}/>
+      <Notification messages={messages} errors={errors} />
       <Filter value={filter} changeHandler={handleFilterChange} />
       <h2>Add a new person</h2>
       <PersonForm

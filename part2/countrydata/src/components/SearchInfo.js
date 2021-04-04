@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import dotenv from "dotenv";
 
-const { REACT_APP_API_KEY } = process.env;
+dotenv.config();
 
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
+console.log(REACT_APP_API_KEY);
 const SearchInfo = ({ result }) => {
   const [weatherInfo, setWeatherInfo] = useState({});
 

@@ -1,8 +1,6 @@
 import React from "react";
 
 const Notification = ({ messages, errors}) => {
-  console.log(messages, errors)
-
   if (messages === [] && errors===[]) {
     return null;
   }

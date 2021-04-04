@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons";
+// Currently only works when in the same address as backend
+// proxy server won't solve this issue as json-server does not allow
+// to add the api prefix
+const baseUrl = "/api/persons";
 
 const getAll = () => {
   const request = axios.get(baseUrl);
@@ -9,7 +12,9 @@ const getAll = () => {
 
 const create = (newObject) => {
   const request = axios.post(baseUrl, newObject);
-  return request.then(response => response.data);
+  return request.then(response => {
+    return response.data
+  });
 };
 
 const deleteName = (id) =>{
