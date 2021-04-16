@@ -29,7 +29,6 @@ const mostBlogs = (blogs) => {
   // The values is in format {author, blog}
   const authors = blogs.reduce((acc, current) => {
     if (acc.hasOwnProperty(current.author)) {
-      console.log(acc);
       acc[current.author].blogs += 1;
     } else {
       acc[current.author] = {
@@ -86,5 +85,5 @@ module.exports = {
   totalLikes,
   favoriteBlog,
   mostBlogs,
-  mostLikes,
+  mostLikes
 };
