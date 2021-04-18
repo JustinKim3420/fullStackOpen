@@ -5,8 +5,8 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const errorHandler = require("./utils/errorHandler");
-const getToken=require('./utils/getToken')
-const getUser = require('./utils/getUser')
+const getToken = require("./utils/getToken");
+const getUser = require("./utils/getUser");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 const morgan = require("morgan");
 
@@ -56,7 +56,7 @@ const clearDatabase = async () => {
 
 app.use(cors());
 app.use(express.json());
-app.use(getToken)
+app.use(getToken);
 app.use(
   morgan((tokens, req, res) => {
     morgan.token("body", (req) => {
@@ -77,7 +77,7 @@ app.use(
 
 app.use("/api/blogs", require("./routes/blogRouter"));
 app.use("/api/users", require("./routes/userRouter"));
-app.use("/api/login", require('./routes/loginRouter'))
+app.use("/api/login", require("./routes/loginRouter"));
 
 app.use(errorHandler.unknownEndpoint);
 app.use(errorHandler.errorHandler);
