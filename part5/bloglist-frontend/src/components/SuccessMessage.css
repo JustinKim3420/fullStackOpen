@@ -1,0 +1,6 @@
+.successMessage{
+    color:green;
+    border-width:0.1rem;
+    border-color:green;
+    background-color: rgb(163, 255, 163);
+}

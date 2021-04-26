@@ -1,0 +1,6 @@
+.errorMessage{
+    color:red;
+    border-width:0.1rem;
+    border-color:red;
+    background-color: pink;
+}

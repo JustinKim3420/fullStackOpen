@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
-const cors = require('cors')
+const cors = require("cors");
+const getToken = require("./utils/getToken");
+const errorHandler = require('./utils/errorHandler')
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
 const mongod = new MongoMemoryServer();
@@ -21,32 +23,37 @@ const connect = async () => {
       useFindAndModify: false,
       useCreateIndex: true,
     });
-    console.log("Successfully concted to MongoDB", mongoUrl)
+    console.log("Successfully concted to MongoDB", mongoUrl);
   } catch (error) {
-      console.log("Error in connecting to MongoDB", error.message)
+    console.log("Error in connecting to MongoDB", error.message);
   }
 };
 
-const closeDatabase = async ()=>{
-    await mongoose.connection.dropDatabase()
-    await mongoose.connection.close();
-    await mongod.stop()
-}
+const closeDatabase = async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongod.stop();
+};
 
-const clearDatabase = async ()=>{
-    const collections = mongoose.connection.collections;
-    for(const key in collections){
-        const collection = collections[key];
-        await collection.deleteMany({})
-    }
-}
+const clearDatabase = async () => {
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    const collection = collections[key];
+    await collection.deleteMany({});
+  }
+};
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(getToken);
+app.use("/api/blogs", require("./routes/blogRouter"));
+app.use("/api/users", require("./routes/userRouter"));
+app.use("/api/login", require("./routes/loginRouter"));
+app.use(errorHandler)
 
-module.exports({
-    app,
-    connect,
-    clearDatabase,
-    closeDatabase
-})
+module.exports = {
+  app,
+  connect,
+  clearDatabase,
+  closeDatabase,
+};

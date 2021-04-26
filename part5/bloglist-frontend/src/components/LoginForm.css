@@ -1,0 +1,26 @@
+.formInput{
+    float:right;
+}
+
+.formSection{
+    margin:1rem;
+    width:15rem;
+}
+
+.formTitle{
+    float:left;
+}
+
+.loginForm{
+    display:flex;
+    flex-direction: column;
+}
+
+.loginHeader{
+    margin-left: 1rem;
+}
+
+.submitButton{
+    margin:1rem;
+    width:15rem;
+}
