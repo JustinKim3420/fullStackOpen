@@ -1,9 +1,10 @@
 import Blog from "./Blog";
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 import "./BlogForm.css";
 import NewBlogForm from "./NewBlogForm";
 import SuccessMessage from "./SuccessMessage";
 import ErrorMessage from "./ErrorMessage";
+import Toggleable from "./Toggleable";
 
 const BlogForm = ({
   blogs,
@@ -14,7 +15,6 @@ const BlogForm = ({
   setNewBlog,
   loginPassed,
   setLoginPassed,
-  loggedOut,
   setLoggedOut,
   isError,
   setIsError,
@@ -24,7 +24,8 @@ const BlogForm = ({
     author: "",
     url: "",
   });
-
+  const toggleableRef = useRef()
+  
   const handleLogoutClick = () => {
     window.localStorage.removeItem("loggedUser");
     setUser();
@@ -62,16 +63,19 @@ const BlogForm = ({
         <button onClick={handleLogoutClick}>Logout</button>
       </div>
       <h1>Create a new blog</h1>
-      <NewBlogForm
-        setBlogs={setBlogs}
-        blogs={blogs}
-        blogInfo={blogInfo}
-        setBlogInfo={setBlogInfo}
-        setNewBlog={setNewBlog}
-        setIsError={setIsError}
-      />
+      <Toggleable buttonLabel="Show Blog Form" ref={toggleableRef}>
+        <NewBlogForm
+          setBlogs={setBlogs}
+          blogs={blogs}
+          blogInfo={blogInfo}
+          setBlogInfo={setBlogInfo}
+          setNewBlog={setNewBlog}
+          setIsError={setIsError}
+          toggleVisibility = {()=>toggleableRef.current.toggleVisibility()}
+        />
+      </Toggleable>
       {blogs.map((blog) => (
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs}/>
       ))}
     </div>
   );

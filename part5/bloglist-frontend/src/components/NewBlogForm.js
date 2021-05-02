@@ -7,7 +7,8 @@ const NewBlogForm = ({
   blogInfo,
   setBlogInfo,
   setNewBlog,
-  setIsError
+  setIsError,
+  toggleVisibility
 }) => {
   const changeHandler = (event) => {
     const value = event.target.value;
@@ -21,6 +22,7 @@ const NewBlogForm = ({
     event.preventDefault();
     try {
       const newBlog = await blogsService.createBlog(blogInfo);
+      toggleVisibility()
       setBlogs([...blogs, newBlog]);
       setNewBlog(newBlog);
       setBlogInfo({

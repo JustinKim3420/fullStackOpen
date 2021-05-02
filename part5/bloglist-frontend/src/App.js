@@ -11,12 +11,22 @@ const App = () => {
   const [loggedOut, setLoggedOut] = useState();
   const [isError, setIsError] = useState();
 
-  useEffect(() => {
-    blogsService.getAll().then((blogs) => {
-      setBlogs(blogs);
-    });
-  }, []);
+  // useEffect(() => {
+  //   blogsService.getAll().then((blogs) => {
+  //     setBlogs(blogs);
+  //   });
+  // }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      const receivedBlogs = await blogsService.getAll();
+      receivedBlogs.sort((a, b) => {
+        return b.likes - a.likes;
+      });
+      setBlogs(receivedBlogs)
+    }
+    fetchData();
+  },[])
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedUser");
     if (loggedUserJSON) {
@@ -40,7 +50,6 @@ const App = () => {
             setBlogs={setBlogs}
             loginPassed={loginPassed}
             setLoginPassed={setLoginPassed}
-            loggedOut={loggedOut}
             setLoggedOut={setLoggedOut}
             isError={isError}
             setIsError={setIsError}
