@@ -1,12 +1,12 @@
 import axios from 'axios'
 const baseUrl = '/api/login'
 
-const postLogin = async (data)=>{
-   return await axios.post(baseUrl, data)
+const postLogin = async (data) => {
+  return await axios.post(baseUrl, data)
 }
 
 const loginService={
-    postLogin
+  postLogin
 }
 
 export default loginService

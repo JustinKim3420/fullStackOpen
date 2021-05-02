@@ -1,53 +1,58 @@
-import React, { useState } from "react";
-import "./LoginForm.css";
-import loginService from "../services/loginService";
-import ErrorMessage from "./ErrorMessage";
-import SuccessMessage from "./SuccessMessage";
+import React, { useState } from 'react'
+import './LoginForm.css'
+import loginService from '../services/loginService'
 
-const LoginForm = ({ setUser, setLoginPassed, loginPassed, loggedOut, setLoggedOut }) => {
+const LoginForm = ({ setUser, showMessage, setShowMessage }) => {
   const [formInformation, setFormInformation] = useState({
-    username: "",
-    password: "",
-  });
+    username: '',
+    password: '',
+  })
+
+  const successMessageStyle = {
+    color: 'green',
+    borderWidth: '0.1rem',
+    borderColor: 'green',
+    backgroundColor: 'rgb(163, 255, 163)',
+  }
+
+  const errorMessageStyle = {
+    color: 'red',
+    borderWidth: '0.1rem',
+    borderColor: 'red',
+    backgroundColor: 'pink',
+  }
 
   const handleChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value
     setFormInformation({
       ...formInformation,
       [event.target.name]: value,
-    });
-  };
+    })
+  }
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      const user = await loginService.postLogin(formInformation);
-      window.localStorage.setItem("loggedUser", JSON.stringify(user.data));
-      setUser(user.data);
-      setLoginPassed(true);
+      const user = await loginService.postLogin(formInformation)
+      window.localStorage.setItem('loggedUser', JSON.stringify(user.data))
+      setUser(user.data)
+      setShowMessage({
+        message: 'Successfully logged in',
+        style: successMessageStyle,
+      })
     } catch (error) {
-      console.log(error);
-      setLoginPassed(false);
+      setShowMessage({
+        message: 'Incorrect username or password',
+        style: errorMessageStyle,
+      })
+      console.log(error)
     }
-  };
+  }
 
   return (
     <>
+      <div style={showMessage.style}>{showMessage.message}</div>
       <h1 className="loginHeader">Log in to the application</h1>
-      {loginPassed === false && (
-        <ErrorMessage
-          state={loginPassed}
-          changeState={setLoginPassed}
-          message={"Incorrect username or password"}
-        />
-      )}
-      {loggedOut === true && (
-        <SuccessMessage
-        state={loggedOut}
-        changeState={setLoggedOut}
-        message={"Successfully logged out"}
-      />
-      )}
       <form className="loginForm" onSubmit={handleLogin}>
         <div className="formSection">
           <label id="usernameInput" className="formTitle">
@@ -80,7 +85,7 @@ const LoginForm = ({ setUser, setLoginPassed, loginPassed, loggedOut, setLoggedO
         </button>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

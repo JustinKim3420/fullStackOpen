@@ -1,61 +1,44 @@
-import Blog from "./Blog";
-import React, { useState , useRef } from "react";
-import "./BlogForm.css";
-import NewBlogForm from "./NewBlogForm";
-import SuccessMessage from "./SuccessMessage";
-import ErrorMessage from "./ErrorMessage";
-import Toggleable from "./Toggleable";
+import Blog from './Blog'
+import React, { useState , useRef } from 'react'
+import './BlogForm.css'
+import NewBlogForm from './NewBlogForm'
+import Toggleable from './Toggleable'
+import propTypes from 'prop-types'
 
 const BlogForm = ({
   blogs,
   user,
   setUser,
   setBlogs,
-  newBlog,
-  setNewBlog,
-  loginPassed,
-  setLoginPassed,
-  setLoggedOut,
-  isError,
-  setIsError,
+  showMessage,
+  setShowMessage
 }) => {
   const [blogInfo, setBlogInfo] = useState({
-    title: "",
-    author: "",
-    url: "",
-  });
+    title: '',
+    author: '',
+    url: '',
+  })
+  const successMessageStyle={
+    color:'green',
+    borderWidth:'0.1rem',
+    borderColor:'green',
+    backgroundColor: 'rgb(163, 255, 163)'
+  }
   const toggleableRef = useRef()
-  
+
   const handleLogoutClick = () => {
-    window.localStorage.removeItem("loggedUser");
-    setUser();
-    setLoggedOut(true);
-  };
+    window.localStorage.removeItem('loggedUser')
+    setUser()
+    setShowMessage({
+      message:'Successfully logged out',
+      style:successMessageStyle
+    })
+  }
 
   return (
     <div>
+      <div style={showMessage.style}>{showMessage.message}</div>
       <h1>Blogs</h1>
-      {loginPassed === true && (
-        <SuccessMessage
-          state={loginPassed}
-          changeState={setLoginPassed}
-          message={"Successfully logged in"}
-        />
-      )}
-      {newBlog && (
-        <SuccessMessage
-          state={newBlog}
-          changeState={setNewBlog}
-          message={`Added blog "${newBlog.title}" by ${newBlog.author} to the blog list`}
-        />
-      )}
-      {isError && (
-        <ErrorMessage
-          state={isError}
-          changeState={setIsError}
-          message={`Please add a URL or Title`}
-        />
-      )}
       <div>
         <span className="userStatement">
           {user.name} is currently logged in
@@ -69,16 +52,25 @@ const BlogForm = ({
           blogs={blogs}
           blogInfo={blogInfo}
           setBlogInfo={setBlogInfo}
-          setNewBlog={setNewBlog}
-          setIsError={setIsError}
-          toggleVisibility = {()=>toggleableRef.current.toggleVisibility()}
+          showMessage={showMessage}
+          setShowMessage={setShowMessage}
+          toggleVisibility = {() => toggleableRef.current.toggleVisibility()}
         />
       </Toggleable>
       {blogs.map((blog) => (
         <Blog key={blog.id} blog={blog} blogs={blogs} setBlogs={setBlogs}/>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default BlogForm;
+BlogForm.propTypes = {
+  blogs:propTypes.array.isRequired,
+  user:propTypes.object.isRequired,
+  setUser:propTypes.func.isRequired,
+  setBlogs:propTypes.func.isRequired,
+  showMessage:propTypes.object.isRequired,
+  setShowMessage:propTypes.func.isRequired
+}
+
+export default BlogForm
