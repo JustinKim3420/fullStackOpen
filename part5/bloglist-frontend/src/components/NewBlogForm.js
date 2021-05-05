@@ -1,14 +1,15 @@
-import React from 'react'
-import blogsService from '../services/blogsService'
+import React, { useState } from 'react'
 
 const NewBlogForm = ({
-  blogs,
-  setBlogs,
-  blogInfo,
-  setBlogInfo,
-  setShowMessage,
-  toggleVisibility,
+  createBlog
 }) => {
+
+  const [blogInfo, setBlogInfo] = useState({
+    title: '',
+    author: '',
+    url: '',
+  })
+
   const changeHandler = (event) => {
     const value = event.target.value
     setBlogInfo({
@@ -17,46 +18,18 @@ const NewBlogForm = ({
     })
   }
 
-  const successMessageStyle = {
-    color: 'green',
-    borderWidth: '0.1rem',
-    borderColor: 'green',
-    backgroundColor: 'rgb(163, 255, 163)',
-  }
-
-  const errorMessageStyle ={
-    color:'red',
-    borderWidth:'0.1rem',
-    borderColor:'red',
-    backgroundColor: 'pink',
-  }
-
-  const createBlog = async (event) => {
+  const addBlog = (event) => {
     event.preventDefault()
-    try {
-      const newBlog = await blogsService.createBlog(blogInfo)
-      toggleVisibility()
-      setBlogs([...blogs, newBlog])
-      setBlogInfo({
-        title: '',
-        author: '',
-        url: '',
-      })
-      setShowMessage({
-        message: `Successfully created blog for ${blogInfo.title} by ${blogInfo.author}`,
-        style: successMessageStyle,
-      })
-    } catch (error) {
-      setShowMessage({
-        message: 'Missing blog info. Could not create new blog',
-        style: errorMessageStyle,
-      })
-      console.log(error)
-    }
+    createBlog(blogInfo)
+    setBlogInfo({
+      title: '',
+      author: '',
+      url: '',
+    })
   }
 
   return (
-    <form onSubmit={createBlog}>
+    <form className='NewBlogForm' onSubmit={addBlog}>
       <div>
         <label htmlFor="titleInput">title:</label>
         <input
@@ -67,18 +40,18 @@ const NewBlogForm = ({
         />
       </div>
       <div>
-        <label id="author">author:</label>
+        <label htmlFor="authorInput">author:</label>
         <input
-          htmlFor="author"
+          id="authorInput"
           name="author"
           value={blogInfo.author}
           onChange={changeHandler}
         />
       </div>
       <div>
-        <label id="url">url:</label>
+        <label htmlFor="url">url:</label>
         <input
-          htmlFor="url"
+          id="urlInput"
           name="url"
           value={blogInfo.url}
           onChange={changeHandler}
