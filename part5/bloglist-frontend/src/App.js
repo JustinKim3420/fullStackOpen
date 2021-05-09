@@ -34,7 +34,7 @@ const App = () => {
     const timer = setTimeout(() => {
       setShowMessage({
         message:'',
-        style:{}
+        style:{ display:'none' }
       })
     }, 3000)
     return(() => {clearTimeout(timer)})

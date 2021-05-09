@@ -57,7 +57,7 @@ const NewBlogForm = ({
           onChange={changeHandler}
         />
       </div>
-      <button type="submit">Create blog</button>
+      <button className='submitButton' type="submit">Create blog</button>
     </form>
   )
 }

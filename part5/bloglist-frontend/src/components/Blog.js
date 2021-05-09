@@ -21,7 +21,7 @@ const Blog = ({ blog,likeButtonClick, handleDeleteClick }) => {
   const extraInfo = (
     <>
       <div>{blog.url}</div>
-      <div>
+      <div id="likes">
         {blog.likes}{' '}
         <button className="likeButton"style={buttonStyle} onClick={async () => await likeButtonClick(blog)}>
           Likes
@@ -33,7 +33,7 @@ const Blog = ({ blog,likeButtonClick, handleDeleteClick }) => {
   )
 
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       {blog.title} {blog.author}
       <button className='showButton' style={buttonStyle} onClick={showButtonClick}>
         {show ? 'Hide' : 'Show more info'}

@@ -81,7 +81,7 @@ const BlogForm = ({
 
   return (
     <div>
-      <div style={showMessage.style}>{showMessage.message}</div>
+      <div className='message' style={showMessage.style}>{showMessage.message}</div>
       <h1>Blogs</h1>
       <div>
         <span className="userStatement">

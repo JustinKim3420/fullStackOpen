@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 const mongoose = require('mongoose')
 const express = require('express')
 const app = express()
@@ -47,6 +47,10 @@ const clearDatabase = async () => {
 app.use(cors())
 app.use(express.json())
 app.use(getToken)
+
+if(process.env.NODE_ENV==='test'){
+  app.use('/api/testing', require('./routes/testRouter'))
+}
 app.use('/api/blogs', require('./routes/blogRouter'))
 app.use('/api/users', require('./routes/userRouter'))
 app.use('/api/login', require('./routes/loginRouter'))

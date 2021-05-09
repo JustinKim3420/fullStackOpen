@@ -9,6 +9,7 @@ const LoginForm = ({ setUser, showMessage, setShowMessage }) => {
   })
 
   const successMessageStyle = {
+    display:'block',
     color: 'green',
     borderWidth: '0.1rem',
     borderColor: 'green',
@@ -16,6 +17,7 @@ const LoginForm = ({ setUser, showMessage, setShowMessage }) => {
   }
 
   const errorMessageStyle = {
+    display:'block',
     color: 'red',
     borderWidth: '0.1rem',
     borderColor: 'red',
@@ -51,16 +53,16 @@ const LoginForm = ({ setUser, showMessage, setShowMessage }) => {
 
   return (
     <>
-      <div style={showMessage.style}>{showMessage.message}</div>
+      <div className='message' style={showMessage.style}>{showMessage.message}</div>
       <h1 className="loginHeader">Log in to the application</h1>
       <form className="loginForm" onSubmit={handleLogin}>
         <div className="formSection">
-          <label id="usernameInput" className="formTitle">
+          <label  className="formTitle" htmlFor="usernameInput">
             Username
           </label>
           <input
             type="text"
-            htmlFor="usernameInput"
+            id="usernameInput"
             className="formInput"
             name="username"
             onChange={handleChange}
@@ -68,19 +70,19 @@ const LoginForm = ({ setUser, showMessage, setShowMessage }) => {
           />
         </div>
         <div className="formSection">
-          <label id="passwordInput" className="formTitle">
+          <label  className="formTitle" htmlFor="passwordInput">
             Password
           </label>
           <input
             type="password"
-            htmlFor="passwordInput"
+            id="passwordInput"
             className="formInput"
             name="password"
             onChange={handleChange}
             value={formInformation.password}
           />
         </div>
-        <button type="submit" className="submitButton">
+        <button id="loginButton" type="submit" className="submitButton">
           Login
         </button>
       </form>
