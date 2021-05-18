@@ -26,9 +26,6 @@ const AnecdoteList = (props) => {
     if (notification === "") {
       dispatch(showNotification(`You voted for '${anecdote.content}'`,5));
     } else {
-      clearTimeout(timeOut);
-      dispatch(showNotification(`You voted for '${anecdote.content}'`,5));
-      timeOut = setTimeout(() => dispatch(closeNotification()), 5000);
     }
   };
 
