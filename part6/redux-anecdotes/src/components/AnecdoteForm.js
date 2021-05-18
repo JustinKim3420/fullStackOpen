@@ -8,8 +8,10 @@ const AnecdoteForm = () => {
   const createNewAnecdote = (event) => {
     event.preventDefault();
     const newEntry = event.target.anecdoteInput.value;
-    event.target.anecdoteInput.value = ''
-    dispatch(createAnecdote(newEntry));
+    if (newEntry) {
+      event.target.anecdoteInput.value = "";
+      dispatch(createAnecdote(newEntry));
+    }
   };
 
   return (
@@ -25,4 +27,4 @@ const AnecdoteForm = () => {
   );
 };
 
-export default AnecdoteForm
+export default AnecdoteForm;

@@ -8,11 +8,10 @@ import {
 
 let timeOut;
 
-const AnecdoteList = () => {
+const AnecdoteList = (props) => {
   const notification = useSelector((state) => state.notification);
   const filter = useSelector((state) => state.filter);
   const anecdotes = (useSelector((state) => state.anecdote)).filter((anecdote)=>{
-    console.log(anecdote)
     return ((anecdote.content.toLowerCase()).includes(filter.toLowerCase()))
   });
   const dispatch = useDispatch();
@@ -23,16 +22,12 @@ const AnecdoteList = () => {
   };
 
   const vote = (anecdote) => {
-    dispatch(increaseVote(anecdote.id));
-    console.log(timeOut);
+    dispatch(increaseVote(props.store.getState().anecdote,anecdote.id));
     if (notification === "") {
-      console.log("if statement");
-      dispatch(showNotification(anecdote.content));
-      timeOut = setTimeout(() => dispatch(closeNotification()), 5000);
+      dispatch(showNotification(`You voted for '${anecdote.content}'`,5));
     } else {
-      console.log("else statement");
       clearTimeout(timeOut);
-      dispatch(showNotification(anecdote.content));
+      dispatch(showNotification(`You voted for '${anecdote.content}'`,5));
       timeOut = setTimeout(() => dispatch(closeNotification()), 5000);
     }
   };
