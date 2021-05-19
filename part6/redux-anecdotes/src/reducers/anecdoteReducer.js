@@ -41,10 +41,19 @@ export const createAnecdote = (newAnecdote) => {
 export const initialAnecdotes = () => {
   return async (dispatch) => {
     const anecdotes = await getAnecdotes();
+    const sortedAnecdotes = anecdotes.sort((a, b) => {
+      if (a.votes > b.votes) {
+        return -1;
+      } else if (a.votes < b.votes) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     dispatch({
       type: "INIT_ANECDOTES",
       data: {
-        anecdotes: anecdotes,
+        anecdotes: sortedAnecdotes,
       },
     });
   };
